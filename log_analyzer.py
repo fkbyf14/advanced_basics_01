@@ -30,7 +30,7 @@ def search_last_log(log_dir):
     named_tuple = tuple()
     try:
         names = os.listdir(log_dir)
-        date_pattern = re.compile('\d{8}')
+        date_pattern = re.compile(r'\d{8}')
         dict_logs = {}
         for name in names:
             if name.startswith('nginx-access-ui.log-'):
@@ -75,8 +75,8 @@ def count_data(path_last_log):
     time_avg ‑ средний $request_time для данного URL'а
     time_max ‑ максимальный $request_time для данного URL'а
     time_med ‑ медиана $request_time для данного URL'а"""
-    pattern_url = re.compile('[/\w.*&=\-%?&/]+(?=\sHTTP)')
-    pattern_time = re.compile('\d+\.\d+$')
+    pattern_url = re.compile(r'[/\w.*&=\-%?&/]+(?=\sHTTP)')
+    pattern_time = re.compile(r'\d+\.\d+$')
     count_of_fail = 0
     list_of_urls = []
     data_of_urls = {}
@@ -122,7 +122,6 @@ def count_data(path_last_log):
         row['time_perc'] = round(row['time_sum'] * 100 / request_time_all, 3)
         row['count_perc'] = round(row['count'] * 100 / number_of_request, 3)
     sorted_res_table = sorted(res_table, key=lambda row: row['time_sum'], reverse=True)
-    logging.info(str(sorted_res_table))
     return sorted_res_table
 
 
