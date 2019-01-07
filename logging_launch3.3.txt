@@ -1,0 +1,11 @@
+[2019-01-07 18:55:16,020] I Config from file is empty, I've taken default
+[2019-01-07 18:55:16,020] D result config is:{'REPORT_SIZE': 20, 'REPORT_DIR': 'C:\\Users\\user\\reports', 'LOG_DIR': 'C:\\Users\\user\\log\\75broken'}
+[2019-01-07 18:55:16,024] I Log ('C:\\Users\\user\\log\\75broken\\nginx-access-ui.log-20170515', '2017.05.15') has chosen
+[2019-01-07 18:55:16,024] E Can't parse, - broken line
+[2019-01-07 18:55:16,024] I Level has overrun part_of_fail
+[2019-01-07 18:55:16,024] E Data not counted
+[2019-01-07 18:55:16,024] E Unexpected error
+Traceback (most recent call last):
+  File "log_analyzer.py", line 194, in main
+    sys.exit(0)
+SystemExit: 0
