@@ -1,0 +1,137 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>rbui log analysis report</title>
+  <meta name="description" content="rbui log analysis report">
+  <style type="text/css">
+    html, body {
+      background-color: black;
+    }
+    th {
+      text-align: center;
+      color: silver;
+      font-style: bold;
+      padding: 5px;
+      cursor: pointer;
+    }
+    table {
+      width: auto;
+      border-collapse: collapse;
+      margin: 1%;
+      color: silver;
+    }
+    td {
+      text-align: right;
+      font-size: 1.1em;
+      padding: 5px;
+    }
+    .report-table-body-cell-url {
+      text-align: left;
+      width: 20%;
+    }
+    .clipped {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow:hidden !important;
+      max-width: 700px;
+      word-wrap: break-word;
+      display:inline-block;
+    }
+    .url {
+      cursor: pointer;
+      color: #729FCF;
+    }
+    .alert {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <table border="1" class="report-table">
+  <thead>
+    <tr class="report-table-header-row">
+    </tr>
+  </thead>
+  <tbody class="report-table-body">
+  </tbody>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.tablesorter.min.js"></script> 
+  <script type="text/javascript">
+  !function($) {
+    var table = [{'count': 17, 'time_avg': 60.102, 'time_max': 60.414, 'time_sum': 1021.74, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 8.987, 'count_perc': 0.115}, {'count': 17, 'time_avg': 60.102, 'time_max': 60.414, 'time_sum': 1021.74, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 8.987, 'count_perc': 0.115}, {'count': 16, 'time_avg': 60.104, 'time_max': 60.414, 'time_sum': 961.663, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 8.459, 'count_perc': 0.108}, {'count': 15, 'time_avg': 60.107, 'time_max': 60.414, 'time_sum': 901.602, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.088, 'time_perc': 7.93, 'count_perc': 0.101}, {'count': 14, 'time_avg': 60.085, 'time_max': 60.127, 'time_sum': 841.188, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 7.399, 'count_perc': 0.094}, {'count': 13, 'time_avg': 60.086, 'time_max': 60.127, 'time_sum': 781.115, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 6.871, 'count_perc': 0.088}, {'count': 12, 'time_avg': 60.086, 'time_max': 60.127, 'time_sum': 721.027, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 6.342, 'count_perc': 0.081}, {'count': 11, 'time_avg': 60.088, 'time_max': 60.127, 'time_sum': 660.963, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.088, 'time_perc': 5.814, 'count_perc': 0.074}, {'count': 10, 'time_avg': 60.089, 'time_max': 60.127, 'time_sum': 600.89, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.088, 'time_perc': 5.285, 'count_perc': 0.067}, {'count': 9, 'time_avg': 60.184, 'time_max': 60.286, 'time_sum': 541.652, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.171, 'time_perc': 4.764, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.184, 'time_max': 60.286, 'time_sum': 541.652, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.171, 'time_perc': 4.764, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.165, 'time_max': 60.242, 'time_sum': 541.482, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.174, 'time_perc': 4.763, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.165, 'time_max': 60.242, 'time_sum': 541.482, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.174, 'time_perc': 4.763, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.15, 'time_max': 60.265, 'time_sum': 541.353, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.123, 'time_perc': 4.762, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.15, 'time_max': 60.265, 'time_sum': 541.353, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.123, 'time_perc': 4.762, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.129, 'time_max': 60.153, 'time_sum': 541.164, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.135, 'time_perc': 4.76, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.129, 'time_max': 60.153, 'time_sum': 541.164, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.135, 'time_perc': 4.76, 'count_perc': 0.061}, {'count': 9, 'time_avg': 60.09, 'time_max': 60.127, 'time_sum': 540.806, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.088, 'time_perc': 4.757, 'count_perc': 0.061}, {'count': 8, 'time_avg': 60.182, 'time_max': 60.286, 'time_sum': 481.456, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.171, 'time_perc': 4.235, 'count_perc': 0.054}, {'count': 8, 'time_avg': 60.162, 'time_max': 60.242, 'time_sum': 481.297, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.174, 'time_perc': 4.233, 'count_perc': 0.054}, {'count': 8, 'time_avg': 60.162, 'time_max': 60.208, 'time_sum': 481.295, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.158, 'time_perc': 4.233, 'count_perc': 0.054}, {'count': 8, 'time_avg': 60.162, 'time_max': 60.208, 'time_sum': 481.295, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.158, 'time_perc': 4.233, 'count_perc': 0.054}, {'count': 8, 'time_avg': 60.157, 'time_max': 60.265, 'time_sum': 481.256, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.124, 'time_perc': 4.233, 'count_perc': 0.054}, {'count': 8, 'time_avg': 60.132, 'time_max': 60.153, 'time_sum': 481.054, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.138, 'time_perc': 4.231, 'count_perc': 0.054}, {'count': 8, 'time_avg': 60.089, 'time_max': 60.127, 'time_sum': 480.714, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.088, 'time_perc': 4.228, 'count_perc': 0.054}, {'count': 7, 'time_avg': 60.187, 'time_max': 60.286, 'time_sum': 421.306, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.194, 'time_perc': 3.706, 'count_perc': 0.047}, {'count': 7, 'time_avg': 60.17, 'time_max': 60.242, 'time_sum': 421.191, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.175, 'time_perc': 3.705, 'count_perc': 0.047}, {'count': 7, 'time_avg': 60.162, 'time_max': 60.208, 'time_sum': 421.137, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.165, 'time_perc': 3.704, 'count_perc': 0.047}, {'count': 7, 'time_avg': 60.162, 'time_max': 60.265, 'time_sum': 421.132, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.203, 'time_perc': 3.704, 'count_perc': 0.047}, {'count': 7, 'time_avg': 60.131, 'time_max': 60.153, 'time_sum': 420.919, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.14, 'time_perc': 3.702, 'count_perc': 0.047}, {'count': 7, 'time_avg': 60.089, 'time_max': 60.127, 'time_sum': 420.625, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.088, 'time_perc': 3.7, 'count_perc': 0.047}, {'count': 6, 'time_avg': 60.185, 'time_max': 60.286, 'time_sum': 361.112, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.171, 'time_perc': 3.176, 'count_perc': 0.04}, {'count': 6, 'time_avg': 60.166, 'time_max': 60.208, 'time_sum': 360.995, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.165, 'time_perc': 3.175, 'count_perc': 0.04}, {'count': 6, 'time_avg': 60.158, 'time_max': 60.186, 'time_sum': 360.949, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.174, 'time_perc': 3.175, 'count_perc': 0.04}, {'count': 6, 'time_avg': 60.155, 'time_max': 60.265, 'time_sum': 360.929, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.123, 'time_perc': 3.175, 'count_perc': 0.04}, {'count': 6, 'time_avg': 60.128, 'time_max': 60.143, 'time_sum': 360.766, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.138, 'time_perc': 3.173, 'count_perc': 0.04}, {'count': 6, 'time_avg': 60.09, 'time_max': 60.127, 'time_sum': 360.538, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.088, 'time_perc': 3.171, 'count_perc': 0.04}, {'count': 5, 'time_avg': 60.193, 'time_max': 60.286, 'time_sum': 300.966, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.171, 'time_perc': 2.647, 'count_perc': 0.034}, {'count': 5, 'time_avg': 60.166, 'time_max': 60.208, 'time_sum': 300.83, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.157, 'time_perc': 2.646, 'count_perc': 0.034}, {'count': 5, 'time_avg': 60.161, 'time_max': 60.265, 'time_sum': 300.806, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.118, 'time_perc': 2.646, 'count_perc': 0.034}, {'count': 5, 'time_avg': 60.161, 'time_max': 60.186, 'time_sum': 300.804, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.174, 'time_perc': 2.646, 'count_perc': 0.034}, {'count': 5, 'time_avg': 60.126, 'time_max': 60.143, 'time_sum': 300.628, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.126, 'time_perc': 2.644, 'count_perc': 0.034}, {'count': 5, 'time_avg': 60.09, 'time_max': 60.127, 'time_sum': 300.45, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 2.643, 'count_perc': 0.034}, {'count': 4, 'time_avg': 60.199, 'time_max': 60.286, 'time_sum': 240.795, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.224, 'time_perc': 2.118, 'count_perc': 0.027}, {'count': 4, 'time_avg': 60.175, 'time_max': 60.265, 'time_sum': 240.701, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.205, 'time_perc': 2.117, 'count_perc': 0.027}, {'count': 4, 'time_avg': 60.172, 'time_max': 60.186, 'time_sum': 240.687, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.175, 'time_perc': 2.117, 'count_perc': 0.027}, {'count': 4, 'time_avg': 60.168, 'time_max': 60.208, 'time_sum': 240.673, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.196, 'time_perc': 2.117, 'count_perc': 0.027}, {'count': 4, 'time_avg': 60.122, 'time_max': 60.143, 'time_sum': 240.488, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.126, 'time_perc': 2.115, 'count_perc': 0.027}, {'count': 4, 'time_avg': 60.081, 'time_max': 60.089, 'time_sum': 240.323, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.087, 'time_perc': 2.114, 'count_perc': 0.027}, {'count': 3, 'time_avg': 60.214, 'time_max': 60.286, 'time_sum': 180.642, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.286, 'time_perc': 1.589, 'count_perc': 0.02}, {'count': 3, 'time_avg': 60.196, 'time_max': 60.265, 'time_sum': 180.588, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.265, 'time_perc': 1.588, 'count_perc': 0.02}, {'count': 3, 'time_avg': 60.178, 'time_max': 60.186, 'time_sum': 180.535, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.186, 'time_perc': 1.588, 'count_perc': 0.02}, {'count': 3, 'time_avg': 60.155, 'time_max': 60.196, 'time_sum': 180.465, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.196, 'time_perc': 1.587, 'count_perc': 0.02}, {'count': 3, 'time_avg': 60.125, 'time_max': 60.143, 'time_sum': 180.376, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.143, 'time_perc': 1.587, 'count_perc': 0.02}, {'count': 3, 'time_avg': 60.082, 'time_max': 60.089, 'time_sum': 180.247, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.089, 'time_perc': 1.585, 'count_perc': 0.02}, {'count': 8, 'time_avg': 16.369, 'time_max': 16.476, 'time_sum': 130.956, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.372, 'time_perc': 1.152, 'count_perc': 0.054}, {'count': 8, 'time_avg': 16.369, 'time_max': 16.476, 'time_sum': 130.956, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.372, 'time_perc': 1.152, 'count_perc': 0.054}, {'count': 2, 'time_avg': 60.255, 'time_max': 60.286, 'time_sum': 120.51, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=5', 'time_med': 60.286, 'time_perc': 1.06, 'count_perc': 0.013}, {'count': 2, 'time_avg': 60.174, 'time_max': 60.175, 'time_sum': 120.349, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=2', 'time_med': 60.175, 'time_perc': 1.059, 'count_perc': 0.013}, {'count': 2, 'time_avg': 60.162, 'time_max': 60.205, 'time_sum': 120.323, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=1', 'time_med': 60.205, 'time_perc': 1.058, 'count_perc': 0.013}, {'count': 2, 'time_avg': 60.135, 'time_max': 60.136, 'time_sum': 120.269, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=3', 'time_med': 60.136, 'time_perc': 1.058, 'count_perc': 0.013}, {'count': 2, 'time_avg': 60.117, 'time_max': 60.126, 'time_sum': 120.233, 'url': '/api/v2/internal/gpmd_plan_report/queue/?wait=1m&worker=4', 'time_med': 60.126, 'time_perc': 1.058, 'count_perc': 0.013}, {'count': 2, 'time_avg': 60.08, 'time_max': 60.089, 'time_sum': 120.16, 'url': '/api/v2/internal/html5/phantomjs/queue/?wait=1m', 'time_med': 60.089, 'time_perc': 1.057, 'count_perc': 0.013}, {'count': 7, 'time_avg': 16.354, 'time_max': 16.444, 'time_sum': 114.48, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.372, 'time_perc': 1.007, 'count_perc': 0.047}, {'count': 6, 'time_avg': 16.359, 'time_max': 16.444, 'time_sum': 98.153, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.372, 'time_perc': 0.863, 'count_perc': 0.04}, {'count': 5, 'time_avg': 16.361, 'time_max': 16.444, 'time_sum': 81.806, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.372, 'time_perc': 0.72, 'count_perc': 0.034}, {'count': 4, 'time_avg': 16.35, 'time_max': 16.444, 'time_sum': 65.401, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.372, 'time_perc': 0.575, 'count_perc': 0.027}, {'count': 3, 'time_avg': 16.343, 'time_max': 16.444, 'time_sum': 49.029, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.444, 'time_perc': 0.431, 'count_perc': 0.02}, {'count': 3, 'time_avg': 12.016, 'time_max': 12.678, 'time_sum': 36.047, 'url': '/campaigns/7854376/banners/?', 'time_med': 12.678, 'time_perc': 0.317, 'count_perc': 0.02}, {'count': 3, 'time_avg': 12.016, 'time_max': 12.678, 'time_sum': 36.047, 'url': '/campaigns/7854376/banners/?', 'time_med': 12.678, 'time_perc': 0.317, 'count_perc': 0.02}, {'count': 1, 'time_avg': 34.547, 'time_max': 34.547, 'time_sum': 34.547, 'url': '/agency/prices/3568/campaigns/bulk_read/', 'time_med': 34.547, 'time_perc': 0.304, 'count_perc': 0.007}, {'count': 2, 'time_avg': 16.293, 'time_max': 16.308, 'time_sum': 32.585, 'url': '/export/ivi/200010-impression.csv', 'time_med': 16.308, 'time_perc': 0.287, 'count_perc': 0.013}, {'count': 3, 'time_avg': 10.668, 'time_max': 11.541, 'time_sum': 32.005, 'url': '/campaigns/7854473/banners/?', 'time_med': 11.541, 'time_perc': 0.282, 'count_perc': 0.02}, {'count': 3, 'time_avg': 10.668, 'time_max': 11.541, 'time_sum': 32.005, 'url': '/campaigns/7854473/banners/?', 'time_med': 11.541, 'time_perc': 0.282, 'count_perc': 0.02}, {'count': 2, 'time_avg': 14.34, 'time_max': 16.078, 'time_sum': 28.68, 'url': '/api/v2/internal/revenue_share/service/276/partner/505425/statistic/v2?date_from=2017-06-23&date_to=2017-06-29&date_type=day', 'time_med': 16.078, 'time_perc': 0.252, 'count_perc': 0.013}, {'count': 2, 'time_avg': 14.34, 'time_max': 16.078, 'time_sum': 28.68, 'url': '/api/v2/internal/revenue_share/service/276/partner/505425/statistic/v2?date_from=2017-06-23&date_to=2017-06-29&date_type=day', 'time_med': 16.078, 'time_perc': 0.252, 'count_perc': 0.013}, {'count': 1, 'time_avg': 26.455, 'time_max': 26.455, 'time_sum': 26.455, 'url': '/api/v2/internal/slots', 'time_med': 26.455, 'time_perc': 0.233, 'count_perc': 0.007}, {'count': 2, 'time_avg': 12.403, 'time_max': 12.678, 'time_sum': 24.806, 'url': '/campaigns/7854376/banners/?', 'time_med': 12.678, 'time_perc': 0.218, 'count_perc': 0.013}, {'count': 1, 'time_avg': 23.321, 'time_max': 23.321, 'time_sum': 23.321, 'url': '/agency/campaigns/6458019/banners/bulk_read/', 'time_med': 23.321, 'time_perc': 0.205, 'count_perc': 0.007}, {'count': 1, 'time_avg': 22.587, 'time_max': 22.587, 'time_sum': 22.587, 'url': '/agency/campaigns/6403181/banners/bulk_read/', 'time_med': 22.587, 'time_perc': 0.199, 'count_perc': 0.007}, {'count': 1, 'time_avg': 22.101, 'time_max': 22.101, 'time_sum': 22.101, 'url': '/api/v2/slot/2902/groups', 'time_med': 22.101, 'time_perc': 0.194, 'count_perc': 0.007}, {'count': 1, 'time_avg': 21.363, 'time_max': 21.363, 'time_sum': 21.363, 'url': '/agency/campaigns/5397843/banners/bulk_read/', 'time_med': 21.363, 'time_perc': 0.188, 'count_perc': 0.007}, {'count': 3, 'time_avg': 6.973, 'time_max': 8.069, 'time_sum': 20.918, 'url': '/campaigns/7854362/banners/?', 'time_med': 8.069, 'time_perc': 0.184, 'count_perc': 0.02}, {'count': 3, 'time_avg': 6.973, 'time_max': 8.069, 'time_sum': 20.918, 'url': '/campaigns/7854362/banners/?', 'time_med': 8.069, 'time_perc': 0.184, 'count_perc': 0.02}, {'count': 2, 'time_avg': 10.232, 'time_max': 10.346, 'time_sum': 20.464, 'url': '/campaigns/7854473/banners/?', 'time_med': 10.346, 'time_perc': 0.18, 'count_perc': 0.013}, {'count': 3, 'time_avg': 6.257, 'time_max': 6.872, 'time_sum': 18.77, 'url': '/campaigns/7876636/banners/?', 'time_med': 6.872, 'time_perc': 0.165, 'count_perc': 0.02}, {'count': 3, 'time_avg': 6.257, 'time_max': 6.872, 'time_sum': 18.77, 'url': '/campaigns/7876636/banners/?', 'time_med': 6.872, 'time_perc': 0.165, 'count_perc': 0.02}, {'count': 1, 'time_avg': 18.711, 'time_max': 18.711, 'time_sum': 18.711, 'url': '/agency/prices/2054/campaigns/bulk_read/', 'time_med': 18.711, 'time_perc': 0.165, 'count_perc': 0.007}, {'count': 1, 'time_avg': 18.651, 'time_max': 18.651, 'time_sum': 18.651, 'url': '/agency/campaigns/5397861/banners/bulk_read/', 'time_med': 18.651, 'time_perc': 0.164, 'count_perc': 0.007}, {'count': 1, 'time_avg': 15.875, 'time_max': 15.875, 'time_sum': 15.875, 'url': '/agency/campaigns/5399457/banners/bulk_read/', 'time_med': 15.875, 'time_perc': 0.14, 'count_perc': 0.007}, {'count': 3, 'time_avg': 5.199, 'time_max': 6.202, 'time_sum': 15.597, 'url': '/campaigns/7854359/banners/?', 'time_med': 6.202, 'time_perc': 0.137, 'count_perc': 0.02}, {'count': 3, 'time_avg': 5.199, 'time_max': 6.202, 'time_sum': 15.597, 'url': '/campaigns/7854359/banners/?', 'time_med': 6.202, 'time_perc': 0.137, 'count_perc': 0.02}, {'count': 2, 'time_avg': 7.457, 'time_max': 7.612, 'time_sum': 14.914, 'url': '/agency/campaigns/7852824/', 'time_med': 7.612, 'time_perc': 0.131, 'count_perc': 0.013}, {'count': 2, 'time_avg': 7.457, 'time_max': 7.612, 'time_sum': 14.914, 'url': '/agency/campaigns/7852824/', 'time_med': 7.612, 'time_perc': 0.131, 'count_perc': 0.013}, {'count': 1, 'time_avg': 14.777, 'time_max': 14.777, 'time_sum': 14.777, 'url': '/agency/campaigns/6403189/banners/bulk_read/', 'time_med': 14.777, 'time_perc': 0.13, 'count_perc': 0.007}, {'count': 3, 'time_avg': 4.892, 'time_max': 5.109, 'time_sum': 14.676, 'url': '/campaigns/7876633/banners/?', 'time_med': 5.109, 'time_perc': 0.129, 'count_perc': 0.02}, {'count': 3, 'time_avg': 4.892, 'time_max': 5.109, 'time_sum': 14.676, 'url': '/campaigns/7876633/banners/?', 'time_med': 5.109, 'time_perc': 0.129, 'count_perc': 0.02}, {'count': 1, 'time_avg': 13.922, 'time_max': 13.922, 'time_sum': 13.922, 'url': '/api/1/banners/?campaign=3431890', 'time_med': 13.922, 'time_perc': 0.122, 'count_perc': 0.007}, {'count': 1, 'time_avg': 13.535, 'time_max': 13.535, 'time_sum': 13.535, 'url': '/agency/campaigns/6403204/banners/bulk_read/', 'time_med': 13.535, 'time_perc': 0.119, 'count_perc': 0.007}, {'count': 1, 'time_avg': 13.381, 'time_max': 13.381, 'time_sum': 13.381, 'url': '/api/1/banners/?campaign=3098083', 'time_med': 13.381, 'time_perc': 0.118, 'count_perc': 0.007}];
+    var reportDates;
+    var columns = new Array();
+    var lastRow = 150;
+    var $table = $(".report-table-body");
+    var $header = $(".report-table-header-row");
+    var $selector = $(".report-date-selector");
+
+    $(document).ready(function() {
+      $(window).bind("scroll", bindScroll);
+        var row = table[0];
+        for (k in row) {
+          columns.push(k);
+        }
+        columns = columns.sort();
+        columns = columns.slice(columns.length -1, columns.length).concat(columns.slice(0, columns.length -1));
+        drawColumns();
+        drawRows(table.slice(0, lastRow));
+        $(".report-table").tablesorter(); 
+    });
+
+    function drawColumns() {
+      for (var i = 0; i < columns.length; i++) {
+        var $th = $("<th></th>").text(columns[i])
+                                .addClass("report-table-header-cell")
+        $header.append($th);
+      }
+    }
+
+    function drawRows(rows) {
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var $row = $("<tr></tr>").addClass("report-table-body-row");
+        for (var j = 0; j < columns.length; j++) {
+          var columnName = columns[j];
+          var $cell = $("<td></td>").addClass("report-table-body-cell");
+          if (columnName == "url") {
+            var url = "https://rb.mail.ru" + row[columnName];
+            var $link = $("<a></a>").attr("href", url)
+                                    .attr("title", url)
+                                    .attr("target", "_blank")
+                                    .addClass("clipped")
+                                    .addClass("url")
+                                    .text(row[columnName]);
+            $cell.addClass("report-table-body-cell-url");
+            $cell.append($link);
+          }
+          else {
+            $cell.text(row[columnName]);
+            if (columnName == "time_avg" && row[columnName] > 0.9) {
+              $cell.addClass("alert");
+            }
+          }
+          $row.append($cell);
+        }
+        $table.append($row);
+      }
+      $(".report-table").trigger("update"); 
+    }
+
+    function bindScroll() {
+      if($(window).scrollTop() == $(document).height() - $(window).height()) {
+        if (lastRow < 1000) {
+          drawRows(table.slice(lastRow, lastRow + 50));
+          lastRow += 50;
+        }
+      }
+    }
+
+  }(window.jQuery)
+  </script>
+</body>
+</html>

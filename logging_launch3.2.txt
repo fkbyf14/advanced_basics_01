@@ -1,0 +1,14 @@
+[2019-01-06 20:45:49,384] I Config from file is empty, I've taken default
+[2019-01-06 20:45:49,384] D result config is:{'REPORT_SIZE': 20, 'REPORT_DIR': 'C:\\Users\\user\\reports', 'LOG_DIR': 'C:\\Users\\user\\log\\ansi_broken'}
+[2019-01-06 20:45:49,384] I Log ('C:\\Users\\user\\log\\ansi_broken\\nginx-access-ui.log-20170730', '2017.07.30') has chosen
+[2019-01-06 20:45:53,557] E Unexpected error
+Traceback (most recent call last):
+  File "log_analyzer.py", line 187, in main
+    res_table = count_data(search_tuple[0])
+  File "log_analyzer.py", line 88, in count_data
+    for line in parse_log(path_last_log):
+  File "log_analyzer.py", line 61, in parse_log
+    for line in f.readlines():
+  File "C:\Users\user\AppData\Local\Programs\Python\Python37-32\lib\codecs.py", line 322, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 6393: invalid start byte
