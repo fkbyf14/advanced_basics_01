@@ -21,7 +21,7 @@ import logging
 config = {
     "REPORT_SIZE": 20,
     "REPORT_DIR": r"C:\Users\user\reports",
-    "LOG_DIR": r"C:\Users\user\log\small"
+    "LOG_DIR": r"C:\Users\user\log"
 }
 
 
