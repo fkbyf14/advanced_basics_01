@@ -15,53 +15,56 @@ from datetime import datetime
 from string import Template
 from functools import reduce
 import argparse
-from collections import Counter
+from collections import Counter, namedtuple
 import logging
 
 config = {
     "REPORT_SIZE": 20,
     "REPORT_DIR": r"C:\Users\user\reports",
-    "LOG_DIR": r"C:\Users\user\log"
+    "LOG_DIR": r"C:\Users\user\log",
+    "LOGGING": r"C:\Users\user\logs"
 }
 
 
 def search_last_log(log_dir):
     """ Ищет свежий лог сервиса nginx-access-ui в формате plain или gzip"""
-    named_tuple = tuple()
+    found_log = namedtuple('Log', ['path', 'date'])
+    logs_tuple = tuple()
+    logs = list()
     try:
         names = os.listdir(log_dir)
         date_pattern = re.compile(r'\d{8}')
-        dict_logs = {}
         for name in names:
             if name.startswith('nginx-access-ui.log-'):
                 fullname = os.path.join(log_dir, name)
                 date_string = date_pattern.search(name).group()
-                date = datetime.strptime(date_string, "%Y%m%d")
+                try:
+                    date = datetime.strptime(date_string, "%Y%m%d")
+                except ValueError as e:
+                    logging.error("ValueError: {0}".format(e))
                 path, ext = os.path.splitext(fullname)
                 if ext == '.log-' + date_string or ext == '.gz':
-                    dict_logs[date] = fullname
-                    min_date = min(dict_logs.keys())
-                    named_tuple = dict_logs[min_date], min_date.strftime("%Y.%m.%d")
-                    logging.info("Log "+str(named_tuple)+" has chosen")
-                    return named_tuple
-        logging.info("I can't find appropriate log of nginx-access-ui service")
-        return named_tuple
+                    logs.append(found_log(fullname, date))
+        logs.sort(key=lambda d: d.date)
+        try:
+            logs_tuple = logs[0].path, logs[0].date.strftime("%Y.%m.%d")
+            logging.info("Log "+str(logs_tuple)+" has chosen")
+        except IndexError:
+            logging.error("Appropriate log of nginx-access-ui service is absent")
+        return logs_tuple
     except OSError as err:
         logging.error("OS error: {0}".format(err))
-        print("OS error: {0}".format(err))
-        return named_tuple
+        return logs_tuple
 
 
 def parse_log(path_last_log):
     """функция-генератор, открывает файл лога и считывает построчно"""
     path, ext = os.path.splitext(path_last_log)
     try:
-        with gzip.open(path_last_log, 'rt', encoding='UTF-8') if ext == '.gz' \
-                else open(path_last_log, 'rt', encoding='UTF-8') as f:
+        with gzip.open if ext == '.gz' else open(path_last_log, 'rt', encoding='UTF-8') as f:
             for line in f.readlines():
                 yield line
     except OSError as e:
-        print("OSError: {0}".format(e))
         logging.error("OSError: {0}".format(e))
 
 
@@ -113,7 +116,6 @@ def count_data(path_last_log):
         logging.error("Can't parse, - broken line")
         count_of_fail += 1
     except TypeError as e:
-        print("TypeError: {0}".format(e))
         logging.error("TypeError: {0}".format(e))
     if number_of_request != 0 and count_of_fail / number_of_request > part_of_fail:
         logging.info('Level has overrun part_of_fail')
@@ -157,47 +159,46 @@ def get_result_config(parser, default_config):
         return result_config
 
 
-def main():
-    try:
-        path_for_logging = config["LOG_DIR"] + r'\logging.txt'
-        if "LOG_DIR" in config:
-            logging.basicConfig(format='[%(asctime)s] %(levelname).1s %(message)s', level=logging.DEBUG,
-                                filename=path_for_logging)
-        else:
-            logging.basicConfig(format='[%(asctime)s] %(levelname).1s %(message)s', level=logging.DEBUG,
-                                filename=None)
-        default_config_path = r'C:\Users\user\PycharmProjects\advanced_basics_01\config_root.txt'
-        if not os.path.isfile(default_config_path):
-            logging.info('default_config_path is not available')
-        try:
-            parser = create_parser(default_config_path)
-        except FileNotFoundError as e:
-            logging.error("OSError: {0}".format(e))
-            sys.exit(1)
-        try:
-            result_config = get_result_config(parser, config)
-        except argparse.ArgumentError:
-            logging.error("Config file is not parseable")
-            sys.exit(1)
-        search_tuple = search_last_log(result_config["LOG_DIR"])
-        if search_tuple:
-            names = os.listdir(result_config["REPORT_DIR"])
-            if 'report-' + search_tuple[1] + '.html' in names:
-                logging.info('Work has already been done')
-                sys.exit(0)
-            res_table = count_data(search_tuple[0])
-            if res_table:
-                report_path = os.path.join(result_config['REPORT_DIR'], 'report-' + search_tuple[1] + '.html')
-                render_template(res_table[:result_config["REPORT_SIZE"]], report_path)
+try:
+    def main():
+            path_for_logging = os.path.join(config["LOGGING"], r'\logging.txt')
+            if "LOGGING" in config:
+                logging.basicConfig(format='[%(asctime)s] %(levelname).1s %(message)s', level=logging.DEBUG,
+                                    filename=path_for_logging)
             else:
-                logging.error('Data not counted')
+                logging.basicConfig(format='[%(asctime)s] %(levelname).1s %(message)s', level=logging.DEBUG,
+                                    filename=None)
+            default_config_path = r'C:\Users\user\PycharmProjects\advanced_basics_01\log_analyzer\config_root.txt'
+            if not os.path.isfile(default_config_path):
+                logging.info('default_config_path is not available')
+            try:
+                parser = create_parser(default_config_path)
+            except FileNotFoundError as e:
+                logging.error("OSError: {0}".format(e))
+                sys.exit(1)
+            try:
+                result_config = get_result_config(parser, config)
+            except argparse.ArgumentError:
+                logging.error("Config file is not parseable")
+                sys.exit(1)
+            search_tuple = search_last_log(result_config["LOG_DIR"])
+            if search_tuple:
+                names = os.listdir(result_config["REPORT_DIR"])
+                if 'report-' + search_tuple[1] + '.html' in names:
+                    logging.info('Work has already been done')
+                    sys.exit(0)
+                res_table = count_data(search_tuple[0])
+                if res_table:
+                    report_path = os.path.join(result_config['REPORT_DIR'], 'report-' + search_tuple[1] + '.html')
+                    render_template(res_table[:result_config["REPORT_SIZE"]], report_path)
+                else:
+                    logging.error('Data not counted')
+                    sys.exit(0)
+            else:
+                logging.error('Last log not available')
                 sys.exit(0)
-        else:
-            logging.error('Last log not available')
-            sys.exit(0)
-    except BaseException:
-        print("Unexpected error:", sys.exc_info()[0])
-        logging.exception("Unexpected error")
+except BaseException:
+    logging.exception("Unexpected error")
 
 
 if __name__ == "__main__":

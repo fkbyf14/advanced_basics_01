@@ -2,4 +2,5 @@ config = {
     "REPORT_SIZE": 200,
     "REPORT_DIR": r"C:\Users\user\reports",
     "LOG_DIR": r"C:\Users\user\log"
+    "LOGGING": r"C:\Users\user\logs"
 }
