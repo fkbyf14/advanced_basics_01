@@ -1,5 +1,5 @@
 config = {
     "REPORT_SIZE": 50,
-    "REPORT_DIR": "./reports",
+    "REPORT_DIR": "./",
     "LOG_DIR": "./log",
 }

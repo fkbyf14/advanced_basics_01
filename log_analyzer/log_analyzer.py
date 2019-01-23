@@ -7,6 +7,7 @@
 #                     '"$http_user_agent" "$http_x_forwarded_for" "$http_X_REQUEST_ID" "$http_X_RB_USER" '
 #                     '$request_time';
 import ast
+import configparser
 import re
 import os
 import gzip
@@ -18,13 +19,14 @@ import argparse
 from collections import Counter, namedtuple
 import logging
 
-config = {
+default_config = {
     "REPORT_SIZE": 20,
-    "REPORT_DIR": "./reports",
+    "REPORT_DIR": "./",
     "LOG_DIR": "./log",
-    "LOGGING": "./logging/logging",
+    "LOGGING": ".logging/logging.txt",
     "ERRORS LIMIT": 0.5
 }
+#config_parser = configparser.ConfigParser(defaults=config, dict_type=dict)
 
 DEFAULT_CONFIG_PATH = "./config_root.txt"
 LastLogInfo = namedtuple('Log', ['path', 'date'])
@@ -129,31 +131,35 @@ def render_template(res_table, report_path):
 
 def create_parser(default_config_path):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', nargs='?', type=argparse.FileType('r'),
+    parser.add_argument('--config', help='Config file path', nargs='?', type=argparse.FileType('r'),
                         default=default_config_path)
     return parser
 
 
 def get_result_config(parser, default_config):
     args = parser.parse_args()
-    with args.config as path_config:
-        text_config = path_config.read()
-        if not text_config:
+    with args.config as config_file:
+        config = config_file.read()
+        if not config:
             result_config = default_config.copy()
             logging.info("Config from file is empty, I've taken default")
-            logging.debug("result config is: {}".format(result_config))
             return result_config
 
-        config_param = re.split('= ', text_config)
+        config_param = re.split('= ', config)
         config_from_file = dict(ast.literal_eval(config_param[1]))
         result_config = default_config.copy()
         result_config.update(config_from_file)
-        logging.info("Result config = merge of config from file and default")
+        logging.debug("result config is: {}".format(result_config))
 
         return result_config
 
 
 def main(config):
+    if not os.path.isdir(os.path.dirname(config["LOGGING"])):
+        os.makedirs(os.path.dirname(default_config["LOGGING"]))
+    logging.basicConfig(format='[%(asctime)s] %(levelname).1s %(message)s', level=logging.DEBUG,
+                        filename=default_config["LOGGING"])
+
     the_latest_log_info = search_last_log(result_config["LOG_DIR"])
     if not the_latest_log_info:
         logging.info('No log files yet')
@@ -176,21 +182,9 @@ def main(config):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(format='[%(asctime)s] %(levelname).1s %(message)s', level=logging.DEBUG,
-                        filename=config["LOGGING"])
+    parser = create_parser(DEFAULT_CONFIG_PATH)
+    result_config = get_result_config(parser, default_config)
 
-    if not os.path.isfile(DEFAULT_CONFIG_PATH):
-        logging.info('default_config_path is not available')
-    try:
-        parser = create_parser(DEFAULT_CONFIG_PATH)
-    except OSError as e:
-        logging.error("OSError: {0}".format(e))
-        sys.exit(1)
-    try:
-        result_config = get_result_config(parser, config)
-    except argparse.ArgumentError:
-        logging.error("Config file is not parseable")
-        sys.exit(1)
     try:
         main(result_config)
     except:
