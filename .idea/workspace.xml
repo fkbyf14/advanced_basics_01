@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6656b701-6391-40f1-a296-e67b449e3fe2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/advanced_basics_01.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_analyzer/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_analyzer/config_root.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_analyzer/log_analyzer.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_analyzer/log_analyzer.py" afterDir="false" />
-    </list>
+    <list default="true" id="6656b701-6391-40f1-a296-e67b449e3fe2" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +67,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="77" />
     <option name="y" value="47" />
     <option name="width" value="1279" />
