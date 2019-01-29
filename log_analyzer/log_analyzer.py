@@ -6,12 +6,10 @@
 #                     '$status $body_bytes_sent "$http_referer" '
 #                     '"$http_user_agent" "$http_x_forwarded_for" "$http_X_REQUEST_ID" "$http_X_RB_USER" '
 #                     '$request_time';
-import ast
-import configparser
+import json
 import re
 import os
 import gzip
-import sys
 from datetime import datetime
 from string import Template
 from functools import reduce
@@ -19,17 +17,21 @@ import argparse
 from collections import Counter, namedtuple
 import logging
 
-default_config = {
-    "REPORT_SIZE": 20,
+""" Пример конфига """
+"""{"REPORT_SIZE": 100,
     "REPORT_DIR": "./",
     "LOG_DIR": "./log",
-    "LOGGING": ".logging/logging.txt",
-    "ERRORS LIMIT": 0.5
-}
-#config_parser = configparser.ConfigParser(defaults=config, dict_type=dict)
+    "LOGGING": "./logging.log",
+    "ERRORS LIMIT": 0.5}"""
 
-DEFAULT_CONFIG_PATH = "./config_root.txt"
+DEFAULT_CONFIG_PATH = "./config_root.conf"
 LastLogInfo = namedtuple('Log', ['path', 'date'])
+
+
+def load_conf(conf_path):
+    with open(conf_path, 'rb') as conf_file:
+        conf = json.load(conf_file, encoding='UTF-8')
+    return conf
 
 
 def search_last_log(log_dir):
@@ -59,8 +61,8 @@ def parse_log(path_last_log):
     path, extension = os.path.splitext(path_last_log)
     opener = gzip.open if extension == '.gz' else open
     with opener(path_last_log, 'rt', encoding='UTF-8') as log_file:
-            for line in log_file:
-                yield line
+        for line in log_file:
+            yield line
 
 
 def count_data(path_last_log, errors_limit=None):
@@ -129,45 +131,20 @@ def render_template(res_table, report_path):
         report.write(t.safe_substitute(table_json=res_table))
 
 
-def create_parser(default_config_path):
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--config', help='Config file path', nargs='?', type=argparse.FileType('r'),
-                        default=default_config_path)
-    return parser
-
-
-def get_result_config(parser, default_config):
-    args = parser.parse_args()
-    with args.config as config_file:
-        config = config_file.read()
-        if not config:
-            result_config = default_config.copy()
-            logging.info("Config from file is empty, I've taken default")
-            return result_config
-
-        config_param = re.split('= ', config)
-        config_from_file = dict(ast.literal_eval(config_param[1]))
-        result_config = default_config.copy()
-        result_config.update(config_from_file)
-        logging.debug("result config is: {}".format(result_config))
-
-        return result_config
-
-
 def main(config):
     if not os.path.isdir(os.path.dirname(config["LOGGING"])):
-        os.makedirs(os.path.dirname(default_config["LOGGING"]))
+        os.makedirs(os.path.dirname(config["LOGGING"]))
     logging.basicConfig(format='[%(asctime)s] %(levelname).1s %(message)s', level=logging.DEBUG,
-                        filename=default_config["LOGGING"])
+                        filename=config["LOGGING"])
 
-    the_latest_log_info = search_last_log(result_config["LOG_DIR"])
+    the_latest_log_info = search_last_log(config["LOG_DIR"])
     if not the_latest_log_info:
         logging.info('No log files yet')
         return
 
     report_date = the_latest_log_info.date.strftime("%Y.%m.%d")
     report_filename = 'report-{}.html'.format(report_date)
-    report_file_path = os.path.join(result_config["REPORT_DIR"], report_filename)
+    report_file_path = os.path.join(config["REPORT_DIR"], report_filename)
 
     if os.path.isfile(report_file_path):
         logging.info('Work has already been done')
@@ -178,14 +155,23 @@ def main(config):
         logging.error('Data not counted')
         return
 
-    render_template(result_data_table[:result_config["REPORT_SIZE"]], report_file_path)
+    render_template(result_data_table[:config["REPORT_SIZE"]], report_file_path)
 
 
 if __name__ == "__main__":
-    parser = create_parser(DEFAULT_CONFIG_PATH)
-    result_config = get_result_config(parser, default_config)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', help='Config file path', nargs='?', type=argparse.FileType('r'),
+                        default=DEFAULT_CONFIG_PATH)
+    args = parser.parse_args()
+
+    config = load_conf(DEFAULT_CONFIG_PATH)
+    if args.config:
+        external_config = load_conf(args.config.name)
+        config.update(external_config)
+
+    logging.debug("result config is: {}".format(config))
 
     try:
-        main(result_config)
+        main(config)
     except:
         logging.exception("Unexpected error")

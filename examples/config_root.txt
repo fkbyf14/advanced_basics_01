@@ -1,5 +1,0 @@
-config = {
-    "REPORT_SIZE": 50,
-    "REPORT_DIR": "./",
-    "LOG_DIR": "./log",
-}
