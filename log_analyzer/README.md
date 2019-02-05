@@ -1,5 +1,3 @@
-РџСЂРёРІРµС‚СЃС‚РІСѓСЋ!
-
 РџСѓС‚СЊ РґР»СЏ Р»РѕРіРіРёСЂРѕРІР°РЅРёСЏ СѓРєР°Р·Р°РЅ РІ РїРµСЂРµРјРµРЅРЅРѕР№ path_for_logging, РґРёСЂРµРєС‚РѕСЂРёСЏ РґР»СЏ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ-
 РїРµСЂРµРјРµРЅРЅР°СЏ "LOGGING" РґРµС„РѕР»С‚РЅРѕРіРѕ РєРѕРЅС„РёРіР°, РґРѕРїСѓСЃС‚РёРјС‹Р№ РїРѕСЂРѕРі РѕС€РёР±РѕРє "ERRORS LIMIT".
 Р”Р»СЏ Р·Р°РїСѓСЃРєР° Рё С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ РїСЂРѕРіСЂР°РјРјС‹ РЅРµРѕР±С…РѕРґРёРјС‹ СЃР»РµРґСѓСЋС‰РёРµ С„Р°Р№Р»С‹:
@@ -52,30 +50,5 @@ logging_launch3.3.
 2. test_get_result_config - РЅРµСЃРєРѕР»СЊРєРѕ РїСЂРѕРІРµСЂРѕРє РїСЂРё СЂР°Р·Р»РёС‡РЅРѕР№ РїРѕР»РЅРѕС‚Рµ РєРѕРЅС„РёРіР°, РїРµСЂРµРґР°РІР°РµРјРѕРіРѕ С‡РµСЂРµР·
 --config
 <<<<<<< HEAD:log_analyzer/README.md
-3. test_search_last_log на наборе данных (логов), соответствующих 1му боевому тесту.
-4. test_count_data c логом №3 (small)
-
-------------------------------------------------------------------------------------------------
-[help]
-Насколько я поняла, я не могу вручную перехватить ошибки argparse без переопределения error для него.
-Но попытки есть:
- except FileNotFoundError as e:
-            logging.error("OSError: {0}".format(e))
-            sys.exit(1)
-        try:
-            result_config = get_result_config(parser, config)
-        except argparse.ArgumentError:
-            logging.error("Config file is not parseable")
-            sys.exit(1)
-
-Также, попытка закрыть файл с конфигом:
-def get_result_config(parser, default_config):
-    args = parser.parse_args()
-    with args.config as path_config:
-        text_config = path_config.read()
-Но, кажется, не сработало. Тесты говорят: ResourceWarning: unclosed file. Не понимаю, почему
-попытка перехватить в тестах warnings.filterwarnings('ignore', category=ResourceWarning) не работает.
-=======
-3. test_search_last_log РЅР° РЅР°Р±РѕСЂРµ РґР°РЅРЅС‹С… (Р»РѕРіРѕРІ), СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… 1РјСѓ Р±РѕРµРІРѕРјСѓ С‚РµСЃС‚Сѓ.
-4. test_count_data c Р»РѕРіРѕРј в„–3 (small)
->>>>>>> 7563f0f844df87764c0dba300bbac04a350fb5b2:log_analyzer/README.txt
+3. test_search_last_log пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ), пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+4. test_count_data c пїЅпїЅпїЅпїЅпїЅ пїЅ3 (small)
