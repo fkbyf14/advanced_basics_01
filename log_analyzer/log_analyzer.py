@@ -183,13 +183,13 @@ def main(config):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', help='Config file path', nargs='?', type=argparse.FileType('r'),
+    parser.add_argument('--config', help='Config file path', nargs='?',
                         default=DEFAULT_CONFIG_PATH)
     args = parser.parse_args()
 
     config = load_conf(DEFAULT_CONFIG_PATH)
     if args.config:
-        external_config = load_conf(args.config.name)
+        external_config = load_conf(args.config)
         config.update(external_config)
 
     logging.debug("result config is: {}".format(config))

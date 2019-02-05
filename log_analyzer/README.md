@@ -50,5 +50,5 @@ logging_launch3.3.
 2. test_get_result_config - несколько проверок при различной полноте конфига, передаваемого через
 --config
 <<<<<<< HEAD:log_analyzer/README.md
-3. test_search_last_log �� ������ ������ (�����), ��������������� 1�� ������� �����.
-4. test_count_data c ����� �3 (small)
+3. test_search_last_log
+4. test_count_data
