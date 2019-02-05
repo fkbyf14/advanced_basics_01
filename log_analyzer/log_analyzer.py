@@ -10,6 +10,7 @@ import json
 import re
 import os
 import gzip
+import statistics
 from datetime import datetime
 from string import Template
 from functools import reduce
@@ -23,7 +24,8 @@ import logging
     "LOG_DIR": "./log",
     "LOGGING": "./logging.log",
     "ERRORS LIMIT": 0.5}"""
-
+pattern_url = re.compile(r'[/\w.*&=\-%?&/]+(?=\sHTTP)')
+pattern_time = re.compile(r'\d+\.\d+$')
 DEFAULT_CONFIG_PATH = "./config_root.conf"
 LastLogInfo = namedtuple('Log', ['path', 'date'])
 
@@ -65,61 +67,82 @@ def parse_log(path_last_log):
             yield line
 
 
+def parse_log_record(log_line):
+    request_time = float(pattern_time.search(log_line).group())
+    url = pattern_url.search(log_line).group()
+    if not request_time or not url:
+        logging.error('Unable to parse line: "{}"'.format(log_line))
+        return None
+
+    return url, request_time
+
+
+def create_or_update_data_of_url(data_of_urls, url, request_time):
+    item = data_of_urls.get(url)
+    if not item:
+        item = {'url': url,
+                'requests_count': 0,
+                'request_time_sum': 0,
+                'max_request_time': request_time,
+                'request_time_avg': 0,
+                'request_time_all': []}
+        data_of_urls[url] = item
+
+    item['requests_count'] += 1
+    item['request_time_sum'] += request_time
+    item['max_request_time'] = max(item['max_request_time'], request_time)
+    item['request_time_avg'] = item['request_time_sum'] / item['requests_count']
+    item['request_time_all'].append(request_time)
+
+
+def final_data_of_url(data_of_urls, item, total_request, total_time):
+    url = data_of_urls[item]['url']
+    count = data_of_urls[item]['requests_count']
+    count_perc = count * 100 / total_request
+    time_sum = sum(data_of_urls[item]['request_time_all'])
+    time_perc = data_of_urls[item]['request_time_sum'] * 100 / total_time
+    time_avg = data_of_urls[item]['request_time_avg']
+    time_max = data_of_urls[item]['max_request_time']
+    time_med = statistics.median(data_of_urls[item]['request_time_all'])
+
+    return {
+        'count': count,                  # сколько раз встречается URL, абсолютное значение
+        "time_avg": round(time_avg, 3),  # средний $request_time для данного URL'а
+        "time_max": round(time_max, 3),  # максимальный $request_time для данного URL'а
+        "time_sum": round(time_sum, 3),  # суммарный $request_time для данного URL'а, абсолютное значение
+        "url": url,
+        "time_med": round(time_med, 3),  # медиана $request_time для данного URL'а
+        "time_perc": round(time_perc, 3), # суммарный $request_time для данного URL'а, в процентах относительно
+                                          # общего $request_time всех запросов
+        "count_perc": round(count_perc, 3) # сколько раз встречается URL, в процентах относительно общего числа запросов
+
+    }
+
+
 def count_data(path_last_log, errors_limit=None):
-    """считает необходимые данные:
-    count ‑ сколько раз встречается URL, абсолютное значение
-    count_perc ‑ сколько раз встречается URL, в процентнах относительно общего числа запросов
-    time_sum ‑ суммарный $request_time для данного URL'а, абсолютное значение
-    time_perc ‑ суммарный $request_time для данного URL'а, в процентах относительно общего $request_time всех
-    запросов
-    time_avg ‑ средний $request_time для данного URL'а
-    time_max ‑ максимальный $request_time для данного URL'а
-    time_med ‑ медиана $request_time для данного URL'а"""
-    pattern_url = re.compile(r'[/\w.*&=\-%?&/]+(?=\sHTTP)')
-    pattern_time = re.compile(r'\d+\.\d+$')
     count_of_fail = 0
-    list_of_urls = []
     data_of_urls = {}
-    request_time_all = 0
-    number_of_request = 0
-    res_table = []
-    try:
-        for line in parse_log(path_last_log):
-            number_of_request += 1
-            time_str = pattern_time.search(line).group()
-            url = pattern_url.search(line).group()
-            time = float(time_str)
-            if url not in list_of_urls:
-                data_of_urls[url] = list()
-            data_of_urls[url].append(time)
-            request_time_all += time
-            list_of_urls.append(url)
-            index_of_url = list_of_urls.index(url)
-            counter = Counter(list_of_urls)
-            count = counter[url]
-            time_sum = sum(data_of_urls[url])
-            time_avg = time_sum / count
-            time_max = max(data_of_urls[url])
-            sort_time = sorted(data_of_urls[url])
-            time_med = sort_time[round(len(data_of_urls[url]) / 2)]
-            row_for_table = {"count": count, "time_avg": round(time_avg, 3), "time_max": round(time_max, 3),
-                             "time_sum": round(time_sum, 3), "url": url, "time_med": round(time_med, 3)}
-            if any(row['url'] for row in res_table) != url:
-                res_table.append(row_for_table)
-            res_table[index_of_url] = row_for_table
-        request_time_all = reduce(lambda x, y: x + y, [row['time_sum'] for row in res_table])
-    except AttributeError:
-        logging.error("Can't parse, - broken line")
-        count_of_fail += 1
-    except TypeError as e:
-        logging.error("TypeError: {0}".format(e))
-    if number_of_request != 0 and count_of_fail / number_of_request > errors_limit:
+    total_time = 0
+    total_request = 0
+    result_table = []
+    for log_line in parse_log(path_last_log):
+        total_request += 1
+        if not parse_log_record(log_line):
+            count_of_fail += 1
+            continue
+
+        url, request_time = parse_log_record(log_line)
+        total_time += request_time
+        create_or_update_data_of_url(data_of_urls, url, request_time)
+
+    if total_request != 0 and count_of_fail / total_request > errors_limit:
         logging.info('Level has overrun part_of_fail')
         return
-    for row in res_table:
-        row['time_perc'] = round(row['time_sum'] * 100 / request_time_all, 3)
-        row['count_perc'] = round(row['count'] * 100 / number_of_request, 3)
-    sorted_res_table = sorted(res_table, key=lambda row: row['time_sum'], reverse=True)
+
+    for item in data_of_urls:
+        result_table.append(final_data_of_url(data_of_urls, item, total_request, total_time))
+
+    sorted_res_table = sorted(result_table, key=lambda row: row['time_sum'], reverse=True)
     return sorted_res_table
 
 
