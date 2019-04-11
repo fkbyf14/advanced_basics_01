@@ -1,60 +1,14 @@
-Директория для логирования-переменная "LOGGING" дефолтного конфига, допустимый порог ошибок "ERRORS LIMIT".
-Для запуска программы необходимы следующие файлы:
+The log_analyzer.py script parses nginx logs in specified directory and
+generates report about time used to process requests to different URLs
+
+Files for launch:
 - log_analyzer.py
-- шаблон report.html
-Файлы конфигов:
-- config_root.conf  - дефолтный конфиг (DEFAULT_CONFIG_PATH)
-Семпл лога:
-- nginx-access-ui.log-20170701
-*****************************************************************************************************
-Для тестирования программы необходимы следующие файлы:
-- log_analyzer.py
-- test_log_analyzer.py
-- шаблон report.html
-Файлы конфигов:
-- config_root.conf  - дефолтный конфиг
-- user_config.conf  - к нему указываем путь через --config
-- user_config_empty.conf - к нему указываем путь через --config
-Файлы логов:
-1 nginx-access-ui.log-20170308
-2 nginx-access-ui.log-20170630.gz
-3 nginx-access-ui.log-20170701  //small (в git в качестве примера лога)
-4 nginx-access-ui.log-20170430.txt
-5 another-service-ui.log-20170301
-6 nginx-access-ui.log-20170630
-7 nginx-access-ui.log-20170730  //ansi with blank lines and strange line
-8 nginx-access-ui.log-20170515 // 75% смена формата логгирования
-*************************************************************************************************
-Боевые запуски.
-1. Запуск скрипта из командной строки без параметра, переданного через --config:
-Применяется дефолтный путь конфига, записанный в переменную default_config_path.
-По этому пути лежит файл config_root.conf.
-В LOG_DIR содержатся логи с 1 по 5, в качестве рабочего выбран 1. 
-Полученный отчет-report-2017.03.08_launch1.
+- template report.html
+- default config config_root.conf
+- nginx-access-ui.log-20170701 
 
-2. Запуск скрипта из командной строки с параметром, переданным через --config: передаём путь к файлу
-user_config.conf. В LOG_DIR содержатся логи со 2 по 5, в качестве рабочего выбран 
-nginx-access-ui.log-20170630.gz. Полученный отчет - report-2017.06.30_launch2.
+###### Usage example
+`<python3 log_analyzer.py --config log_analyzer.conf>`
 
-
-3. Запуск скрипта из командной строки с параметром, переданным через --config: передаём путь к 
-пустому файлу user_config_empty.conf.: применяется дефолтный конфиг, записанный в переменной config:
-config = {
-    "REPORT_SIZE": 20,
-    "REPORT_DIR": "./reports",
-    "LOG_DIR": "./log",
-}
-- В LOG_DIR содержатся логи со 2 по 6, в качестве рабочего выбран nginx-access-ui.log-20170630.
-Полученный отчет - report-2017.06.30_launch3.1.
-- Аналогично, "REPORT_SIZE": 20, в LOG_DIR содержится лог под номером 7, одна из строк сообщает на чистом русском:
-"я чудачок". 
-Полученный лог - logging_launch3.2: UnicodeDecodeError.
-- в LOG_DIR содержится лог под номером 8, 75% не соответствуют принятому формату. Полученный лог -
-logging_launch3.3.
--------------------------------------------------------------------------------------------------
-Тестовые запуски.
-1. test_create_parser на любом наборе данных, проверяется тип, возвращаемый функцией
-2. test_get_result_config - несколько проверок при различной полноте конфига, передаваемого через
---config
-3. test_search_last_log
-4. test_count_data
+###### Testing
+`<python3 tests.py>`
