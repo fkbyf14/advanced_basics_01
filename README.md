@@ -7,7 +7,7 @@
 * *nginx-access-ui.log-20170701*
 
 ###### Usage example
-`<python3 log_analyzer.py --config log_analyzer.conf>`
+`python3 log_analyzer.py --config log_analyzer.conf`
 
 ###### Testing
-`<python3 tests.py>`
+`python3 tests.py`
